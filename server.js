@@ -9,6 +9,15 @@ const mongoURI = process.env.MONGO_URI
 
 // MIDDLEWARE
 
+
+app.use(
+    session({
+        secret: process.env.SECRET,
+        resave: false,
+        saveUninitialized: false
+    })
+)
+
 // MONGOOSE CONNECTION
 mongoose.connect(mongoURI)
 const db = mongoose.connection
@@ -18,9 +27,17 @@ db.on('disconnected', () => console.log('mongo is disconnected'))
 
 // ROUTES
 
-//home route
-app.get('/', (req, res) => {
-    res.send('Home')
+//home route - only when not authentic
+const isNotAuthenticated = (req, res, next) => {
+    if(req.session.currentUser){
+        console.log(currentUser.username)
+    }else {
+        next()
+    }
+}
+
+app.get('/', isNotAuthenticated, (req, res) => {
+    res.render('home.ejs')
 })
 
 // LISTENING ON PORT
