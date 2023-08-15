@@ -4,7 +4,7 @@ const User = require('../models/users.js')
 
 // NEW
 router.get('/new', (req, res) => {
-    
+    res.render('sessions/new.ejs')
 })
 
 // CREATE

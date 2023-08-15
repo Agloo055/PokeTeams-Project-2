@@ -8,7 +8,7 @@ const session = require('express-session')
 const mongoURI = process.env.MONGO_URI
 
 // MIDDLEWARE
-
+const sessionCTRL = require('./controllers/sessions.js')
 
 app.use(
     session({
@@ -38,6 +38,14 @@ const isNotAuthenticated = (req, res, next) => {
 
 app.get('/', isNotAuthenticated, (req, res) => {
     res.render('home.ejs')
+})
+
+//sessions route
+app.use('/sessions', sessionCTRL)
+
+//404 Error Route
+app.use((req,res)=>{
+    res.send('404 ERROR: PAGE NOT FOUND')
 })
 
 // LISTENING ON PORT
