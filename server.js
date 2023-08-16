@@ -14,6 +14,8 @@ app.use(methodOverride('_method'))
 const sessionCTRL = require('./controllers/sessions.js')
 const userCTRL = require('./controllers/users.js')
 
+const isNotAuth = require("./middleware/isAuthorized.js").isNotAuth
+
 app.use(
     session({
         secret: process.env.SECRET,
@@ -32,15 +34,8 @@ db.on('disconnected', () => console.log('mongo is disconnected'))
 // ROUTES
 
 //home route - only when not authentic
-const isNotAuthenticated = (req, res, next) => {
-    if(req.session.currentUser){
-        console.log(currentUser.username)
-    }else {
-        next()
-    }
-}
 
-app.get('/', isNotAuthenticated, (req, res) => {
+app.get('/', isNotAuth, (req, res) => {
     res.render('home.ejs')
 })
 
