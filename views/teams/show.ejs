@@ -13,5 +13,8 @@
             <li><%= pokemon.nickname %></li>
         <% }) %>
     </ul>
+    <form action="/users/<%=currentUser._id%>/teams/team/pokemon/new" method="GET">
+        <input type="submit" value="Add Pokemon">
+    </form>
 </body>
 </html>
