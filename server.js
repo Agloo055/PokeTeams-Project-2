@@ -8,6 +8,9 @@ const session = require('express-session')
 const mongoURI = process.env.MONGO_URI
 
 // MIDDLEWARE
+app.use(express.urlencoded({extended: true}))
+app.use(methodOverride('_method'))
+
 const sessionCTRL = require('./controllers/sessions.js')
 const userCTRL = require('./controllers/users.js')
 

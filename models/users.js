@@ -6,7 +6,7 @@ const pokemonSchema = require('./pokemon.js').pokemonSchema
 const userSchema = new Schema({
     username: {type: String, unique: true, required: true},
     password: {type: String, required: true},
-    teams: [pokemonSchema]
+    teams: {type: [pokemonSchema], default:[]}
 })
 
 const User = mongoose.model('User', userSchema)

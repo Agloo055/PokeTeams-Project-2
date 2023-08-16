@@ -8,5 +8,12 @@ router.get('/new', (req, res) => {
 })
 
 // CREATE
+router.post('/', async (req, res) => {
+    req.body.password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
+    const newUser = await User.create(req.body)
+    req.session.currentUser = newUser
+    res.send(newUser)
+    //res.redirect(`/users/${newUser.id}/teams`)
+})
 
 module.exports = router
