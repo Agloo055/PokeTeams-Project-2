@@ -9,6 +9,7 @@ const mongoURI = process.env.MONGO_URI
 
 // MIDDLEWARE
 const sessionCTRL = require('./controllers/sessions.js')
+const userCTRL = require('./controllers/users.js')
 
 app.use(
     session({
@@ -42,6 +43,9 @@ app.get('/', isNotAuthenticated, (req, res) => {
 
 //sessions route
 app.use('/sessions', sessionCTRL)
+
+//users route
+app.use('/users', userCTRL)
 
 //404 Error Route
 app.use((req,res)=>{
