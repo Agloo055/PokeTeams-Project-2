@@ -21,5 +21,10 @@ router.get('/', isAuth, (req, res) => {
 // EDIT
 
 // SHOW
+router.get('/:pokeID', isAuth, async (req, res) => {
+    const foundUser = await User.findById(req.params.userID)
+    const foundPokemon = foundUser.teams.id(req.params.pokeID)
+    res.send(foundPokemon)
+})
 
 module.exports = router
