@@ -14,6 +14,7 @@ app.use(methodOverride('_method'))
 const sessionCTRL = require('./controllers/sessions.js')
 const userCTRL = require('./controllers/users.js')
 const teamCTRL = require('./controllers/teams.js')
+const pokemonCTRL = require('./controllers/pokemon.js')
 
 const isNotAuth = require("./middleware/isAuthorized.js").isNotAuth
 
@@ -43,12 +44,14 @@ app.get('/', isNotAuth, (req, res) => {
 //sessions route
 app.use('/sessions', sessionCTRL)
 
-//teams route
-app.use('/users/:userID/teams', teamCTRL)
-
 //users route
 app.use('/users', userCTRL)
 
+//teams route
+app.use('/users/:userID/teams', teamCTRL)
+
+//pokemon route
+app.use('/users/:userID/teams/team/pokemon', pokemonCTRL)
 
 //404 Error Route
 app.use((req,res)=>{
