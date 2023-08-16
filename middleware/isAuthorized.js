@@ -8,7 +8,8 @@ const isAuthenticated = (req, res, next) => {
 }
 
 const isNotAuthenticated = (req, res, next) => {
-    if(req.session.currentUser){
+    const currentUser = req.session.currentUser
+    if(currentUser){
         console.log(currentUser.username)
         //res.redirect('/')
         next()
