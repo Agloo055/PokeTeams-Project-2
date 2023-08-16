@@ -7,8 +7,12 @@
 </head>
 <body>
     <h1><%= currentUser.username %> teams</h1>
-    <ul> Team:
-        
-    </ul>
+    <a href="/users/<%= currentUser._id %>/teams/team">
+        <ul> Team:
+            <% currentUser.teams.forEach((pokemon) => { %>
+                <li><%= pokemon.nickname %></li>
+            <% }) %>
+        </ul>
+    </a>
 </body>
 </html>

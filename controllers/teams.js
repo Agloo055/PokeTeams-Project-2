@@ -24,7 +24,9 @@ router.get('/', isAuth, (req, res) => {
 
 // SHOW
 router.get('/team', isAuth, (req, res) => {
-    
+    res.render('teams/show.ejs', {
+        currentUser: req.session.currentUser
+    })
 })
 
 module.exports = router
