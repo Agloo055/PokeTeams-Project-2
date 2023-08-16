@@ -6,7 +6,8 @@
     <title>Teams index</title>
 </head>
 <body>
-    <h1><%= currentUser.username %> teams</h1>
+    <%- include('../partials/nav') %>
+    <h1>Your teams</h1>
     <a href="/users/<%= currentUser._id %>/teams/team">
         <ul> Team:
             <% currentUser.teams.forEach((pokemon) => { %>
