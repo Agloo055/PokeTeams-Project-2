@@ -2,8 +2,10 @@ const bcrypt = require('bcrypt')
 const router = require('express').Router()
 const User = require('../models/users.js')
 
+const isNotAuth = require('../middleware/isAuthorized.js').isNotAuth
+
 // NEW
-router.get('/new', (req, res) => {
+router.get('/new', isNotAuth, (req, res) => {
     res.render('sessions/new.ejs')
 })
 
@@ -15,7 +17,7 @@ router.post('/', async (req, res) => {
             res.send("<a href='/'> No username found!</a>")
         } else if (bcrypt.compareSync(req.body.password, foundUser.password)) {
             req.session.currentUser = foundUser
-            res.redirect('/')
+            res.redirect(`/users/${foundUser._id}/teams`)
         } else {
             res.send("<a href='/'>Password does not match!</a>")
         }

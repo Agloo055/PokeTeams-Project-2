@@ -10,9 +10,8 @@ const isAuthenticated = (req, res, next) => {
 const isNotAuthenticated = (req, res, next) => {
     const currentUser = req.session.currentUser
     if(currentUser){
-        console.log(currentUser.username)
-        //res.redirect('/')
-        next()
+        console.log(currentUser._id)
+        res.redirect(`/users/${currentUser._id}/teams`)
     }else {
         next()
     }
