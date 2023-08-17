@@ -5,12 +5,14 @@ const PORT = process.env.PORT
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 const session = require('express-session')
+const path = require('path')
 const mongoURI = process.env.MONGO_URI
 
 // MIDDLEWARE
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 app.use(methodOverride('_method'))
+app.use(express.static(path.join(__dirname, 'public')))
 
 const sessionCTRL = require('./controllers/sessions.js')
 const userCTRL = require('./controllers/users.js')
