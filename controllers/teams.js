@@ -1,12 +1,13 @@
 const router = require('express').Router({mergeParams: true})
 const User = require('../models/users')
-
+const genMaker = require('../middleware/genMaker')
 const isAuth = require('../middleware/isAuthorized').isAuth
 
 // INDUCES
 
 // INDEX
-router.get('/', isAuth, (req, res) => {
+router.get('/', isAuth, async (req, res) => {
+    if(!genMaker.genPokemon.length) await genMaker.genMaker()
     res.render('teams/index.ejs', {
         currentUser: req.session.currentUser
     })

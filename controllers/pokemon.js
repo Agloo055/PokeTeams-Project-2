@@ -3,6 +3,7 @@ const User = require('../models/users')
 const Pokemon = require('../models/pokemon').Pokemon
 const isAuth = require('../middleware/isAuthorized').isAuth
 const pokeMaker = require('../middleware/pokeMaker')
+const genMaker = require('../middleware/genMaker')
 const ROOT_URL = process.env.ROOT_URL
 
 // INDUCES
@@ -13,17 +14,9 @@ router.get('/', isAuth, (req, res) => {
 })
 
 // NEW
-router.get('/new', isAuth, async (req, res) => {
-    const generations = await fetch(`${ROOT_URL}/pokedex/1`)
-        .then((res) => res.json())
+router.get('/new', isAuth, (req, res) => {
     
-    const genPokemon = []
-    generations.pokemon_entries.forEach((pokemon) => {
-        const pk = {}
-        pk.num = pokemon.entry_number
-        pk.name = pokemon.pokemon_species.name
-        genPokemon.push(pk)
-    })
+    const genPokemon = genMaker.genPokemon
 
     res.render('pokemon/new.ejs', {
         currentUser: req.session.currentUser,
