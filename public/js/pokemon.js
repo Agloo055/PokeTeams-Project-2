@@ -11,33 +11,17 @@ const gen8El = document.querySelector('#gen8')
 const gen9El = document.querySelector('#gen9')
 const resultEl = document.querySelector('.pkChoice')
 
-
+const changeEL = (e) => {
+    if(!e.target.value.includes('Gen')) resultEl.value = e.target.value
+}
 
 //Event listeners
-gen1El.addEventListener('change', (e) => {
-    resultEl.value = e.target.value
-})
-gen2El.addEventListener('change', (e) => {
-    resultEl.value = e.target.value
-})
-gen3El.addEventListener('change', (e) => {
-    resultEl.value = e.target.value
-})
-gen4El.addEventListener('change', (e) => {
-    resultEl.value = e.target.value
-})
-gen5El.addEventListener('change', (e) => {
-    resultEl.value = e.target.value
-})
-gen6El.addEventListener('change', (e) => {
-    resultEl.value = e.target.value
-})
-gen7El.addEventListener('change', (e) => {
-    resultEl.value = e.target.value
-})
-gen8El.addEventListener('change', (e) => {
-    resultEl.value = e.target.value
-})
-gen9El.addEventListener('change', (e) => {
-    resultEl.value = e.target.value
-})
+gen1El.addEventListener('change', (e) => changeEL(e))
+gen2El.addEventListener('change', (e) => changeEL(e))
+gen3El.addEventListener('change', (e) => changeEL(e))
+gen4El.addEventListener('change', (e) => changeEL(e))
+gen5El.addEventListener('change', (e) => changeEL(e))
+gen6El.addEventListener('change', (e) => changeEL(e))
+gen7El.addEventListener('change', (e) => changeEL(e))
+gen8El.addEventListener('change', (e) => changeEL(e))
+gen9El.addEventListener('change', (e) => changeEL(e))

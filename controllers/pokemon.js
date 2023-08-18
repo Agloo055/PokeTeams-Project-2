@@ -1,5 +1,7 @@
 const router = require('express').Router({mergeParams: true})
 const User = require('../models/users')
+const Pokemon = require('../models/pokemon').Pokemon
+const { route } = require('./sessions')
 const isAuth = require('../middleware/isAuthorized').isAuth
 const ROOT_URL = process.env.ROOT_URL
 
@@ -34,6 +36,39 @@ router.get('/new', isAuth, async (req, res) => {
 // UPDATE
 
 // CREATE
+router.post('/', async (req, res) => {
+    if(req.body.pokemon === ""){
+        res.send(`<a href='/users/${req.session.currentUser._id}/teams/team/pokemon/new'>Choose a pokemon!</a>`)
+    }
+    const pkmModel = {}
+    const pkm = req.body.pokemon.split(' ')
+    pkmModel.num = Number(pkm[0])
+    pkmModel.pokemon = pkm[1]
+
+    if(req.body.nickname){
+        pkmModel.nickname = req.body.nickname
+    } else {
+        pkmModel.nickname = pkmModel.pokemon
+    }
+
+    const pkmSpecies = await fetch(`${ROOT_URL}/pokemon-species/${pkmModel.num}`)
+        .then((res) => res.json())
+    const pkmMain = await fetch(`${ROOT_URL}/pokemon/${pkmModel.num}`)
+        .then((res) => res.json())
+    
+    pkmModel.img = pkmMain.sprites.front_default
+    pkmModel.typing = []
+    pkmMain.types.forEach((type) => {
+        pkmModel.typing.push(type.type.name)
+    })
+
+    const pokemon = await Pokemon.create(pkmModel)
+    const user = await User.findById(req.params.userID)
+    user.teams.push(pokemon)
+    await user.save()
+    req.session.currentUser = user
+    res.redirect(`/users/${req.session.currentUser._id}/teams/team`)
+})
 
 // EDIT
 

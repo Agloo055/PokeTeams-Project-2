@@ -10,7 +10,9 @@
     <h1>Team</h1>
     <ul>
         <% currentUser.teams.forEach((pokemon) => { %>
-            <li><%= pokemon.nickname %></li>
+            <li><%= pokemon.nickname %> (<%= pokemon.pokemon %>) <br>
+                <img src="<%= pokemon.img %>" alt="<%= pokemon.pokemon %>">
+            </li>
         <% }) %>
     </ul>
     <form action="/users/<%=currentUser._id%>/teams/team/pokemon/new" method="GET">

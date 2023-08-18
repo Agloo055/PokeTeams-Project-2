@@ -9,7 +9,7 @@
 <body>
     <%- include('../partials/nav') %>
     <h1>Choose your Pokemon!</h1>
-    <form action="/users/<%=currentUser._id%>/teams/team/pokemon/" method:"POST">
+    <form action="/users/<%=currentUser._id%>/teams/team/pokemon/" method="POST">
         <select id="gen1" class="pokedex" name="pokedex">
             <option>Gen 1 (1-151)</option>
             <% for(let i = 0; i <= 150; i++){ %>
@@ -64,7 +64,7 @@
                 <option value="<%=i + 1%> <%=genPokemon[i].name%>"><%=genPokemon[i].num%> <%=genPokemon[i].name%></option>
             <% } %>
         </select> <br> <br>
-        Pokemon: <input type="text" class="pkChoice" name="pokemon" value="Pokemon!" readonly required> <br>
+        Pokemon: <input required type="text" class="pkChoice" name="pokemon" readonly> <br>
         Nickname: <input type="text" name="nickname"> <br>
         <input type="submit" value="Make Pokemon">
     </form>
