@@ -11,7 +11,7 @@
     <a href="/users/<%= currentUser._id %>/teams/team">
         <ul> Team:
             <% currentUser.teams.forEach((pokemon) => { %>
-                <li><img src="<%= pokemon.img %>" alt="<%= pokemon.pokemon %>"></li>
+                <img src="<%= pokemon.img %>" alt="<%= pokemon.pokemon %>">
             <% }) %>
         </ul>
     </a>

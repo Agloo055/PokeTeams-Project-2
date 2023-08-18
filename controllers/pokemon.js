@@ -57,7 +57,10 @@ router.post('/', async (req, res) => {
 router.get('/:pokeID', isAuth, async (req, res) => {
     const foundUser = await User.findById(req.params.userID)
     const foundPokemon = foundUser.teams.id(req.params.pokeID)
-    res.send(foundPokemon)
+    res.render('pokemon/show.ejs', {
+        currentUser: req.session.currentUser,
+        pokemon: foundPokemon
+    })
 })
 
 module.exports = router
