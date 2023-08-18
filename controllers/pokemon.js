@@ -32,6 +32,14 @@ router.get('/new', isAuth, async (req, res) => {
 })
 
 // DELETE
+router.delete('/:pokeID', async (req, res) => {
+    const foundUser = await User.findById(req.params.userID)
+    const pokemon = foundUser.teams.id(req.params.pokeID).deleteOne()
+    const foundPokemon = await Pokemon.findByIdAndDelete(req.params.pokeID)
+    foundUser.save()
+    req.session.currentUser = foundUser
+    res.redirect(`/users/${req.params.userID}/teams/team/`)
+})
 
 // UPDATE
 
