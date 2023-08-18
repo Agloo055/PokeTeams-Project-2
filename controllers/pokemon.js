@@ -35,6 +35,18 @@ router.delete('/:pokeID', async (req, res) => {
 })
 
 // UPDATE
+router.get('/:pokeID/edit', isAuth, async (req, res) => {
+    
+    const genPokemon = genMaker.genPokemon
+    const foundUser = await User.findById(req.params.userID)
+    const pokemon = foundUser.teams.id(req.params.pokeID)
+
+    res.render('pokemon/edit.ejs', {
+        currentUser: req.session.currentUser,
+        genPokemon: genPokemon,
+        pokemon: pokemon
+    })
+})
 
 // CREATE
 router.post('/', async (req, res) => {

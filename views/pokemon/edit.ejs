@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="/js/pokemon.js"></script>
+    <title>Update Pokemon</title>
+</head>
+<body>
+    <%- include('../partials/nav') %>
+    <h1>Update your Pokemon!</h1>
+    <form action="/users/<%=currentUser._id%>/teams/team/pokemon/<%= pokemon._id %>?_method=PUT" method="POST">
+        <%- include('../partials/pokedex') %>
+        Pokemon: <input required type="text" class="pkChoice" name="pokemon" value="<%= pokemon.num %> <%= pokemon.pokemon %>" readonly> <br>
+        Nickname: <input type="text" name="nickname" value="<%=pokemon.nickname%>"> <br>
+        <input type="submit" value="Update Pokemon">
+    </form>
+</body>
+</html>
