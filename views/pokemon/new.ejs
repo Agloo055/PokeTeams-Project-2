@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
     <script defer src="/js/pokemon.js"></script>
     <title>New Pokemon</title>
 </head>
@@ -13,7 +14,7 @@
         <%- include('../partials/pokedex') %>
         Pokemon: <input required type="text" class="pkChoice" name="pokemon" readonly> <br>
         Nickname: <input type="text" name="nickname"> <br>
-        <input type="submit" value="Make Pokemon">
+        <input type="submit" class="submit" value="Make Pokemon">
     </form>
 </body>
 </html>

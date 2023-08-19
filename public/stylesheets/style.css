@@ -1,0 +1,131 @@
+/*Standard*/
+body{
+    background-color: gray;
+}
+
+.submit{
+    border-style: solid;
+    border-color: black;
+    display: inline-block;
+    background-color: darkcyan;
+    border-width: 2px;
+    margin: 5px;
+    padding: 4px;
+    color: aliceblue;
+    font-size: 15px;
+}
+
+.link{
+    text-decoration: none; 
+    font-size: 20px;
+}
+
+/*Homepage*/
+#home {
+    text-align: center;
+}
+
+#hHeader {
+    margin-top: 100px;
+}
+
+/*Login/Sign up pages*/
+.lsHeader {
+    display: inline-block;
+    background-color: darkcyan;
+    padding: 5px;
+}
+
+.lsForm{
+    background-color: white;
+    display: inline-block;
+    padding: 5px;
+}
+
+.textbox{
+    color: white;
+    background-color: grey;
+}
+
+.lsVis{
+    padding: 2px;
+}
+
+/*Nav partial*/
+#nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: lightblue;
+}
+
+#username{
+    font-size: 30px;
+    margin: 10px;
+}
+
+/*Pokedex partial*/
+
+/*Teams page*/
+#team{
+    display: inline-grid;
+    grid-gap: 5px;
+    grid-template-areas: 
+    "teamname teamname"
+    "pokemon pokemon pokemon pokemon pokemon pokemon";
+    grid-template-rows: 50px 100px;
+    grid-template-columns: 100px 100px 100px 100px 100px 100px;
+    
+}
+
+.mon1{
+    grid-area: pokemon;
+    width: 100px;
+    height: 100px;
+    grid-row: 2/3;
+    grid-column: 1/2;
+}
+.mon2{
+    grid-area: pokemon;
+    width: 100px;
+    height: 100px;
+    grid-row: 2/3;
+    grid-column: 2/3;
+}
+.mon3{
+    grid-area: pokemon;
+    width: 100px;
+    height: 100px;
+    grid-row: 2/3;
+    grid-column: 3/4;
+}
+.mon4{
+    grid-area: pokemon;
+    width: 100px;
+    height: 100px;
+    grid-row: 2/3;
+    grid-column: 4/5;
+}
+.mon5{
+    grid-area: pokemon;
+    width: 100px;
+    height: 100px;
+    grid-row: 2/3;
+    grid-column: 5/6;
+}
+.mon6{
+    grid-area: pokemon;
+    width: 100px;
+    height: 100px;
+    grid-row: 2/3;
+    grid-column: 6/7;
+}
+
+/*Team index page*/
+
+/*Team edit page*/
+
+/*New/Edit pages*/
+
+
+/*Show page*/

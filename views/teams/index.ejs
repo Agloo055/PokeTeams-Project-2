@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
     <title>Teams index</title>
 </head>
 <body>
     <%- include('../partials/nav') %>
     <h1>Your teams</h1>
-    <a href="/users/<%= currentUser._id %>/teams/team">
-        <ul> Team:
-            <% currentUser.teams.forEach((pokemon) => { %>
-                <img src="<%= pokemon.img %>" alt="<%= pokemon.pokemon %>">
-            <% }) %>
-        </ul>
+    <a href="/users/<%= currentUser._id %>/teams/team" id="team" class="submit link">
+        <div class="team"> Team </div>
+        <% currentUser.teams.forEach((pokemon, i) => { %>
+            <img class="mon<%=i+1%>" src="<%= pokemon.img %>" alt="<%= pokemon.pokemon %>">
+        <% }) %>
     </a>
 </body>
 </html>

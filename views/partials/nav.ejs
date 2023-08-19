@@ -1,7 +1,7 @@
-<nav>
-    <a href="/users/<%=currentUser._id%>/teams">Teams</a>
-    <h1><%=currentUser.username%></h1>
+<nav id="nav">
+    <a href="/users/<%=currentUser._id%>/teams" class="submit link">Teams</a>
+    <h1 id="username"><%=currentUser.username%></h1>
     <form action="/sessions?_method=DELETE" method="POST">
-        <input type="submit" value="LOG OUT">
+        <input type="submit" class="submit" value="LOG OUT">
     </form>
 </nav>

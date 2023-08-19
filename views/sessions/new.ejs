@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
     <title>Login</title>
 </head>
 <body>
-    <h1>Login</h1>
-    <form action="/sessions" method="POST">
-        Username: <input type="text" name="username"> </br>
-        Password: <input type="password" name="password"> <input type="button" value="O"></br>
-        <input type="submit" value="Login">
-    </form>
-    <a href="/">Back to Homepage</a>
+    <h1 class="lsHeader">Login</h1> <br>
+    <form class="lsForm" action="/sessions" method="POST">
+        Username: <input required class="textbox" type="text" name="username"> </br>
+        Password: <input required class="textbox" type="password" name="password"> <input type="button" class="submit" value="O"></br>
+        <input type="submit" class="submit" value="Login">
+    </form> <br>
+    <a href="/" class="submit link">Back to Homepage</a>
 </body>
 </html>
