@@ -14,6 +14,11 @@ router.get('/', isAuth, async (req, res) => {
 })
 
 // NEW - STRETCH GOAL
+router.get('/new', isAuth, (req,res) => {
+    res.render('teams/new.ejs', {
+        currentUser: req.session.currentUser
+    })
+})
 
 // DELETE - STRETCH GOAL
 

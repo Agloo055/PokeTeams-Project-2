@@ -15,5 +15,8 @@
             <img class="mon<%=i+1%>" src="<%= pokemon.img %>" alt="<%= pokemon.pokemon %>">
         <% }) %>
     </a>
+    <form action="/users/<%=currentUser._id%>/teams/new" method="GET">
+        <input type="submit" value="Make new team">
+    </form>
 </body>
 </html>
