@@ -1,5 +1,6 @@
 const router = require('express').Router({mergeParams: true})
 const User = require('../models/users')
+const Team = require('../models/teams').Team
 const genMaker = require('../middleware/genMaker')
 const isAuth = require('../middleware/isAuthorized').isAuth
 
@@ -21,10 +22,26 @@ router.get('/new', isAuth, (req,res) => {
 })
 
 // DELETE - STRETCH GOAL
+router.delete('/:teamID', async (req, res) => {
+    const foundUser = await User.findById(req.params.userID)
+    const team = foundUser.teams.id(req.params.teamID).deleteOne()
+    const foundteam = await Team.findByIdAndDelete(req.params.teamID)
+    foundUser.save()
+    req.session.currentUser = foundUser
+    res.redirect(`/users/${req.params.userID}/teams/`)
+})
 
 // UPDATE - STRETCH GOAL
 
 // CREATE - STRETCH GOAL
+router.post('/', isAuth, async (req, res) => {
+    const team = await Team.create(req.body)
+    const foundUser = await User.findById(req.params.userID)
+    foundUser.teams.push(team)
+    foundUser.save()
+    req.session.currentUser = foundUser
+    res.redirect(`/users/${req.session.currentUser._id}/teams/`)
+})
 
 // EDIT - STRETCH GOAL
 

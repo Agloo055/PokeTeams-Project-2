@@ -8,7 +8,7 @@
 </head>
 <body>
     <%- include('../partials/nav') %>
-    <h1>Name you new team</h1>
+    <h1>Name your new team!</h1>
     <form action="/users/<%=currentUser._id%>/teams/" method="POST">
         Nickname: <input type="text" name="nickname"> <br>
         <input type="submit" class="submit" value="Make Team">

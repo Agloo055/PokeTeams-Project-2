@@ -9,12 +9,17 @@
 <body>
     <%- include('../partials/nav') %>
     <h1>Your teams</h1>
-    <a href="/users/<%= currentUser._id %>/teams/team" id="team" class="submit link">
-        <div class="team"> Team </div>
-        <% currentUser.teams.forEach((pokemon, i) => { %>
-            <img class="mon<%=i+1%>" src="<%= pokemon.img %>" alt="<%= pokemon.pokemon %>">
-        <% }) %>
-    </a>
+    <% currentUser.teams.forEach((team) => { %>
+        <a href="/users/<%= currentUser._id %>/teams/<%= team._id %>" id="team" class="submit link">
+            <div class="team"> <%= team.nickname %> </div>
+            <% team.members.forEach((pokemon, i) => { %>
+                <img class="mon<%=i+1%>" src="<%= pokemon.img %>" alt="<%= pokemon.pokemon %>">
+            <% }) %>
+        </a>
+        <form action="/users/<%=currentUser._id%>/teams/<%=team._id%>/?_method=DELETE" method="POST">
+            <input type="submit" value="Delete Team">
+        </form>
+    <% }) %>
     <form action="/users/<%=currentUser._id%>/teams/new" method="GET">
         <input type="submit" value="Make new team">
     </form>
