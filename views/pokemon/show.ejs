@@ -9,6 +9,14 @@
     <%- include('../partials/nav') %>
     <h1><%= pokemon.nickname %> (<%= pokemon.pokemon %>)</h1>
     <img src="<%= pokemon.img %>" alt="<%= pokemon.pokemon %>">
+    
+    <h4>Typing</h4>
+    <ul>
+        <% pokemon.typing.forEach((type) =>{ %>
+        <li class="<%= type %>"><%=type%></li>
+        <% }) %>
+    </ul>
+
     <a href="/users/<%=currentUser._id%>/teams/team/pokemon/<%=pokemon._id%>/edit">Edit pokemon</a>
     <form action="/users/<%=currentUser._id%>/teams/team/pokemon/<%=pokemon._id%>?_method=DELETE" method="POST">
         <input type="submit" value="Remove Pokemon">
