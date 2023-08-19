@@ -64,6 +64,19 @@ router.post('/', async (req, res) => {
 })
 
 // EDIT
+router.put('/:pokeID', async (req,res) => {
+    const pkmModel = await pokeMaker(req.body)
+    
+    const foundUser = await User.findById(req.params.userID)
+    const foundPokemon = await Pokemon.findByIdAndUpdate(req.params.pokeID, pkmModel, {new: true})
+    const pokemon = foundUser.teams.id(req.params.pokeID)
+
+    foundUser.teams.splice(foundUser.teams.indexOf(pokemon), 1, foundPokemon)
+    
+    await foundUser.save()
+    req.session.currentUser = foundUser
+    res.redirect(`/users/${req.session.currentUser._id}/teams/team/pokemon/${req.params.pokeID}`)
+})
 
 // SHOW
 router.get('/:pokeID', isAuth, async (req, res) => {
