@@ -10,7 +10,7 @@
 <body>
     <%- include('../partials/nav') %>
     <h1>Update your Pokemon!</h1>
-    <form action="/users/<%=currentUser._id%>/teams/team/pokemon/<%= pokemon._id %>?_method=PUT" method="POST">
+    <form action="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/<%= pokemon._id %>?_method=PUT" method="POST">
         <%- include('../partials/pokedex') %>
         Pokemon: <input required type="text" class="pkChoice" name="pokemon" value="<%= pokemon.num %> <%= pokemon.pokemon %>" readonly> <br>
         Nickname: <input type="text" name="nickname" value="<%=pokemon.nickname%>"> <br>

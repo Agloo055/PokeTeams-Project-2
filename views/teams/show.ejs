@@ -8,9 +8,9 @@
 </head>
 <body>
     <%- include('../partials/nav') %>
-    <h1>Team</h1>
+    <h1><%= team.nickname %>'s Members:</h1>
     <ul>
-        <% team.member.forEach((pokemon) => { %>
+        <% team.members.forEach((pokemon) => { %>
             <a href="/users/<%=currentUser._id%>/teams/<%=team._id%>/pokemon/<%=pokemon._id%>"><li><%= pokemon.nickname %> (<%= pokemon.pokemon %>) <br>
                 <img src="<%= pokemon.img %>" alt="<%= pokemon.pokemon %>">
             </li></a>
@@ -19,7 +19,7 @@
             </form>
         <% }) %>
     </ul>
-    <% if (team.member.length < 6){ %>
+    <% if (team.members.length < 6){ %>
         <form action="/users/<%=currentUser._id%>/teams/<%=team._id%>/pokemon/new" method="GET">
             <input type="submit" value="Add Pokemon">
         </form>

@@ -54,7 +54,7 @@ app.use('/users', userCTRL)
 app.use('/users/:userID/teams', teamCTRL)
 
 //pokemon route
-app.use('/users/:userID/teams/team/pokemon', pokemonCTRL)
+app.use('/users/:userID/teams/:teamID/pokemon', pokemonCTRL)
 
 //404 Error Route
 app.use((req,res)=>{

@@ -18,10 +18,10 @@
         <% }) %>
     </ul>
 
-    <a href="/users/<%=currentUser._id%>/teams/team/pokemon/<%=pokemon._id%>/edit">Edit pokemon</a>
-    <form action="/users/<%=currentUser._id%>/teams/team/pokemon/<%=pokemon._id%>?_method=DELETE" method="POST">
+    <a href="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/<%=pokemon._id%>/edit">Edit pokemon</a>
+    <form action="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/<%=pokemon._id%>?_method=DELETE" method="POST">
         <input type="submit" value="Remove Pokemon">
     </form>
-    <a href="/users/<%=currentUser._id%>/teams/team/pokemon/">Back to Team</a>
+    <a href="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/">Back to Team</a>
 </body>
 </html>

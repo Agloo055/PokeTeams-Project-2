@@ -46,9 +46,12 @@ router.post('/', isAuth, async (req, res) => {
 // EDIT - STRETCH GOAL
 
 // SHOW
-router.get('/team', isAuth, (req, res) => {
+router.get('/:teamID', isAuth, async (req, res) => {
+    const foundTeam = await Team.findById(req.params.teamID)
+
     res.render('teams/show.ejs', {
-        currentUser: req.session.currentUser
+        currentUser: req.session.currentUser,
+        team: foundTeam
     })
 })
 
