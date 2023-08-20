@@ -64,7 +64,7 @@ router.post('/', async (req, res) => {
     const user = await User.findById(req.params.userID)
     team.members.push(pokemon)
     await team.save()
-    user.teams.splice(user.teams.indexOf(team), 1, team)
+    user.teams.id(team).members.push(pokemon)
     await user.save()
     req.session.currentUser = user
     res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}`)
@@ -87,8 +87,8 @@ router.get('/:pokeID/edit', isAuth, async (req, res) => {
 
 // SHOW
 router.get('/:pokeID', isAuth, async (req, res) => {
-    const foundUser = await User.findById(req.params.userID)
-    const foundPokemon = foundUser.teams.id(req.params.pokeID)
+    const foundTeam = await Team.findById(req.params.teamID)
+    const foundPokemon = foundTeam.members.id(req.params.pokeID)
     res.render('pokemon/show.ejs', {
         currentUser: req.session.currentUser,
         teamID: req.params.teamID,

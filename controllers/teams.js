@@ -2,6 +2,7 @@ const router = require('express').Router({mergeParams: true})
 const User = require('../models/users')
 const Team = require('../models/teams').Team
 const genMaker = require('../middleware/genMaker')
+const { Pokemon } = require('../models/pokemon')
 const isAuth = require('../middleware/isAuthorized').isAuth
 
 // INDUCES
@@ -25,8 +26,13 @@ router.get('/new', isAuth, (req,res) => {
 router.delete('/:teamID', async (req, res) => {
     const foundUser = await User.findById(req.params.userID)
     const team = foundUser.teams.id(req.params.teamID).deleteOne()
-    const foundteam = await Team.findByIdAndDelete(req.params.teamID)
+    const foundTeam = await Team.findByIdAndDelete(req.params.teamID)
     foundUser.save()
+
+    foundTeam.members.forEach(async (pokemon) => {
+        await Pokemon.findByIdAndDelete(pokemon._id)
+    })
+
     req.session.currentUser = foundUser
     res.redirect(`/users/${req.params.userID}/teams/`)
 })
@@ -35,6 +41,7 @@ router.delete('/:teamID', async (req, res) => {
 
 // CREATE - STRETCH GOAL
 router.post('/', isAuth, async (req, res) => {
+    if(!req.body.nickname) req.body.nickname = "Team"
     const team = await Team.create(req.body)
     const foundUser = await User.findById(req.params.userID)
     foundUser.teams.push(team)
