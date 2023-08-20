@@ -29,9 +29,12 @@ router.get('/new', isAuth, (req, res) => {
 // DELETE
 router.delete('/:pokeID', async (req, res) => {
     const foundUser = await User.findById(req.params.userID)
-    const pokemon = foundUser.teams.id(req.params.pokeID).deleteOne()
+    const foundTeam = await Team.findById(req.params.teamID)
+    const uPokemon = foundUser.teams.id(req.params.teamID).members.id(req.params.pokeID).deleteOne()
+    const tPokemon = foundTeam.members.id(req.params.pokeID).deleteOne()
     const foundPokemon = await Pokemon.findByIdAndDelete(req.params.pokeID)
-    foundUser.save()
+    await foundTeam.save()
+    await foundUser.save()
     req.session.currentUser = foundUser
     res.redirect(`/users/${req.params.userID}/teams/${req.params.teamID}/`)
 })
@@ -41,11 +44,14 @@ router.put('/:pokeID', async (req,res) => {
     const pkmModel = await pokeMaker(req.body)
     
     const foundUser = await User.findById(req.params.userID)
+    const foundTeam = await Team.findById(req.params.teamID)
     const foundPokemon = await Pokemon.findByIdAndUpdate(req.params.pokeID, pkmModel, {new: true})
-    const pokemon = foundUser.teams.id(req.params.pokeID)
+    const pokemon = foundTeam.members.id(req.params.pokeID)
 
-    foundUser.teams.splice(foundUser.teams.indexOf(pokemon), 1, foundPokemon)
-    
+    foundTeam.members.splice(foundTeam.members.indexOf(pokemon), 1, foundPokemon)
+    await foundTeam.save()
+    const team = foundUser.teams.id(req.params.teamID)
+    foundUser.teams.id(team).members.splice(foundTeam.members.indexOf(pokemon), 1, foundPokemon)
     await foundUser.save()
     req.session.currentUser = foundUser
     res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/${req.params.pokeID}`)
@@ -74,8 +80,8 @@ router.post('/', async (req, res) => {
 router.get('/:pokeID/edit', isAuth, async (req, res) => {
     
     const genPokemon = genMaker.genPokemon
-    const foundUser = await User.findById(req.params.userID)
-    const pokemon = foundUser.teams.id(req.params.pokeID)
+    const foundTeam = await Team.findById(req.params.teamID)
+    const pokemon = foundTeam.members.id(req.params.pokeID)
 
     res.render('pokemon/edit.ejs', {
         currentUser: req.session.currentUser,
