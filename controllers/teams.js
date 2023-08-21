@@ -41,9 +41,9 @@ router.delete('/:teamID', async (req, res) => {
 
 // CREATE - STRETCH GOAL
 router.post('/', isAuth, async (req, res) => {
-    if(!req.body.nickname) req.body.nickname = "Team"
-    const team = await Team.create(req.body)
     const foundUser = await User.findById(req.params.userID)
+    if(!req.body.nickname) req.body.nickname = `team${foundUser.teams.length+1}`
+    const team = await Team.create(req.body)
     foundUser.teams.push(team)
     foundUser.save()
     req.session.currentUser = foundUser
