@@ -71,7 +71,7 @@ body{
     display: inline-grid;
     grid-gap: 5px;
     grid-template-areas: 
-    "teamname teamname"
+    "teamname . . . . teamname"
     "pokemon pokemon pokemon pokemon pokemon pokemon";
     grid-template-rows: 50px 100px;
     grid-template-columns: 100px 100px 100px 100px 100px 100px;

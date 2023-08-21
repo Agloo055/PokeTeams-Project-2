@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <title>Edit Team</title>
+</head>
+<body>
+    <%- include('../partials/nav') %>
+    <h1>Rename your team!</h1>
+    <form action="/users/<%=currentUser._id%>/teams/<%=team._id%>?_method=PUT" method="POST">
+        Nickname: <input type="text" name="nickname" value="<%=team.nickname%>"> <br>
+        <input type="submit" class="submit" value="Make Team">
+    </form>
+</body>
+</html>

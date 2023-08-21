@@ -38,9 +38,20 @@ router.delete('/:teamID', async (req, res) => {
 })
 
 // UPDATE - STRETCH GOAL
+router.put('/:teamID', async (req, res) => {
+    const foundUser = await User.findById(req.params.userID)
+    if(!req.body.nickname) req.body.nickname = `team${foundUser.teams.length}`
+
+    const foundTeam = await Team.findByIdAndUpdate(req.params.teamID, req.body, {new: true})
+    const team = foundUser.teams.id(req.params.teamID)
+    foundUser.teams.splice(foundUser.teams.indexOf(team), 1, foundTeam)
+    await foundUser.save()
+    req.session.currentUser = foundUser
+    res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}`)
+})
 
 // CREATE - STRETCH GOAL
-router.post('/', isAuth, async (req, res) => {
+router.post('/', async (req, res) => {
     const foundUser = await User.findById(req.params.userID)
     if(!req.body.nickname) req.body.nickname = `team${foundUser.teams.length+1}`
     const team = await Team.create(req.body)
@@ -51,6 +62,14 @@ router.post('/', isAuth, async (req, res) => {
 })
 
 // EDIT - STRETCH GOAL
+router.get('/:teamID/edit', isAuth, async (req, res) => {
+    const foundTeam = await Team.findById(req.params.teamID)
+
+    res.render('teams/edit.ejs', {
+        currentUser: req.session.currentUser,
+        team: foundTeam
+    })
+})
 
 // SHOW
 router.get('/:teamID', isAuth, async (req, res) => {
