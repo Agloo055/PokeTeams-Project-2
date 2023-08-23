@@ -20,7 +20,7 @@
         <% }) %>
     </ul>
     <% if (team.members.length < 6){ %>
-        <form action="/users/<%=currentUser._id%>/teams/<%=team._id%>/pokemon/new" method="GET">
+        <form action="/users/<%=currentUser._id%>/teams/<%=team._id%>/pokemon/new/pokemon" method="GET">
             <input type="submit" value="Add Pokemon">
         </form>
     <% } else { %>

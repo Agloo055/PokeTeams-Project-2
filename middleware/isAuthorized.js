@@ -1,4 +1,16 @@
+const clearPkmModel = require('./pokeMaker').clearPkmModel
+
 const isAuthenticated = (req, res, next) => {
+    clearPkmModel()
+    if(req.session.currentUser){
+        next()
+    }else {
+        console.log(`Not Authenticated`)
+        res.redirect('/')
+    }
+}
+
+const isAuthenticatedPoke = (req, res, next) => {
     if(req.session.currentUser){
         next()
     }else {
@@ -8,6 +20,7 @@ const isAuthenticated = (req, res, next) => {
 }
 
 const isNotAuthenticated = (req, res, next) => {
+    clearPkmModel()
     const currentUser = req.session.currentUser
     if(currentUser){
         console.log(currentUser._id)
@@ -21,5 +34,6 @@ const isNotAuthenticated = (req, res, next) => {
 
 module.exports = {
     isAuth: isAuthenticated,
-    isNotAuth: isNotAuthenticated
+    isNotAuth: isNotAuthenticated,
+    isAuthPoke: isAuthenticatedPoke
 }

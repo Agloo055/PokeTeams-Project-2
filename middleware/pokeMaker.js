@@ -1,19 +1,29 @@
 const ROOT_URL = process.env.ROOT_URL
+
+//Globals
 let pkmSpecies
 let pkmMain
+const pkmModel = {}
 
-const pokeMaker = async (pkmModel) => {
-    const pkm = pkmModel.pokemon.split(' ')
+const pokeMaker = async (pkmMdl) => {
+    clearPkmModel()
+
+    const pkm = pkmMdl.pokemon.split(' ')
     pkmModel.num = Number(pkm[0])
     pkmModel.pokemon = pkm[1]
 
-    if(!pkmModel.nickname) pkmModel.nickname = pkmModel.pokemon
+    pkmMdl.nickname ? pkmModel.nickname = pkmModel.nickname : pkmModel.nickname = pkmModel.pokemon
 
     pkmSpecies = await fetch(`${ROOT_URL}/pokemon-species/${pkmModel.num}`)
         .then((res) => res.json())
     pkmMain = await fetch(`${ROOT_URL}/pokemon/${pkmModel.num}`)
         .then((res) => res.json())
-    
+
+    return pkmModel
+} 
+
+const pokeMakerP2 = (pkmMdl) => {
+
     pkmModel.img = pkmMain.sprites.front_default
     pkmModel.typing = []
     pkmMain.types.forEach((type) => {
@@ -41,4 +51,22 @@ const pokeMaker = async (pkmModel) => {
     return pkmModel
 }
 
-module.exports = pokeMaker
+const getPkmModel = () => {
+    return pkmModel
+}
+
+const getPkmMain = () => {
+    return pkmMain
+}
+
+const getPkmSpecies = () => {
+    return pkmSpecies
+}
+
+const clearPkmModel = () => {
+    for (data in pkmModel) {
+        delete pkmModel[data]
+    }
+}
+
+module.exports = {pokeMaker, getPkmModel, getPkmMain, getPkmSpecies, clearPkmModel}

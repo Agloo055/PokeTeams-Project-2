@@ -3,7 +3,9 @@ const User = require('../models/users')
 const Team = require('../models/teams').Team
 const Pokemon = require('../models/pokemon').Pokemon
 const isAuth = require('../middleware/isAuthorized').isAuth
-const pokeMaker = require('../middleware/pokeMaker')
+const isAuthNew = require('../middleware/isAuthorized').isAuthPoke
+const pokeMaker = require('../middleware/pokeMaker').pokeMaker
+const getPkm = require('../middleware/pokeMaker')
 const genMaker = require('../middleware/genMaker')
 const ROOT_URL = process.env.ROOT_URL
 
@@ -14,8 +16,8 @@ router.get('/', isAuth, (req, res) => {
     res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}`)
 })
 
-// NEW
-router.get('/new', isAuth, (req, res) => {
+// NEW PAGE 1
+router.get('/new/pokemon', isAuthNew, (req, res) => {
     
     const genPokemon = genMaker.genPokemon
 
@@ -24,6 +26,30 @@ router.get('/new', isAuth, (req, res) => {
         teamID: req.params.teamID,
         genPokemon: genPokemon
     })
+})
+
+// NEW PAGE 2
+router.get('/new/forms', isAuthNew, (req, res) => {
+    
+    const pkmSpecies = getPkm.getPkmSpecies()
+    const pkmModel = getPkm.getPkmModel()
+
+    const forms = []
+    pkmSpecies.varieties.forEach((form) => {
+        forms.push(form.pokemon.name)
+    })
+
+    res.render('pokemon/newForm.ejs', {
+        currentUser: req.session.currentUser,
+        teamID: req.params.teamID,
+        forms: forms,
+        pokemon: pkmModel.pokemon
+    })
+})
+
+// NEW PAGE 3
+router.get('new/data', isAuthNew, (req, res) => {
+    res.send("Data")
 })
 
 // DELETE
@@ -58,22 +84,35 @@ router.put('/:pokeID', async (req,res) => {
 })
 
 
-// CREATE
+// CREATE PAGE 1
 router.post('/', async (req, res) => {
     if(req.body.pokemon === ""){
         res.send(`<a href='/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/new'>Choose a pokemon!</a>`)
     }
-    const pkmModel = await pokeMaker(req.body)
+    await pokeMaker(req.body)
+    
+    res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/new/forms`)
+})
 
-    const pokemon = await Pokemon.create(pkmModel)
-    const team = await Team.findById(req.params.teamID)
-    const user = await User.findById(req.params.userID)
-    team.members.push(pokemon)
-    await team.save()
-    user.teams.id(team).members.push(pokemon)
-    await user.save()
-    req.session.currentUser = user
-    res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}`)
+// CREATE PAGE 2
+router.post('/new', async (req, res) => {
+    if(req.body.pokemon === ""){
+        res.send(`<a href='/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/new'>Choose a pokemon!</a>`)
+    }
+    res.send(req.body)
+    //await pokeMaker(req.body)
+    
+    //res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/new/forms`)
+
+    // const pokemon = await Pokemon.create(pkmModel)
+    // const team = await Team.findById(req.params.teamID)
+    // const user = await User.findById(req.params.userID)
+    // team.members.push(pokemon)
+    // await team.save()
+    // user.teams.id(team).members.push(pokemon)
+    // await user.save()
+    // req.session.currentUser = user
+    // res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}`)
 })
 
 // EDIT

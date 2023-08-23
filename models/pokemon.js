@@ -6,7 +6,8 @@ const pokemonSchema = new Schema({
     pokemon: {type: String, required: true},
     num: {type: Number, required: true},
     nickname: String,
-    img: String,
+    //Page 2
+    form: String,
     typing: [String],
     baseStats: {
         hp: Number,
@@ -17,12 +18,10 @@ const pokemonSchema = new Schema({
         spe: Number,
         bst: Number
     },
-    //Page 2
-    gender: String,
-    form: String,
     weight: Number,
     height: Number,
     //Page 3
+    img: String,
     isShiny: Boolean,
     moves: [String],
     ability: String,
