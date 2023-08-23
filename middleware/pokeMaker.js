@@ -29,18 +29,38 @@ const pokeMakerForms = async (pkmMdl) => {
             formUrl = form.pokemon.url
         }
     })
-    pkmMain = await fetch(formUrl)
-        .then((res) => res.json())
-        
+    if(formUrl){
+        pkmMain = await fetch(formUrl)
+            .then((res) => res.json())
+    }
+    pkmModel.form = pkmMdl.form
+
     return pkmModel
 }
 
 const pokeMakerData = (pkmMdl) => {
 
-    pkmModel.img = pkmMain.sprites.front_default
+    pkmMdl.isShiny === 'on' ? pkmModel.isShiny = true : pkmModel.isShiny = false
+    
+    if(pkmModel.isShiny){
+        pkmModel.img = pkmMain.sprites.front_shiny
+    }else{
+        pkmModel.img = pkmMain.sprites.front_default
+    }
+
+    pkmModel.weight = pkmMain.weight/10
+    pkmModel.height = pkmMain.height/10
+
+    pkmModel.ability = pkmMdl.ability
+    
     pkmModel.typing = []
     pkmMain.types.forEach((type) => {
         pkmModel.typing.push(type.type.name)
+    })
+
+    pkmModel.moves = []
+    pkmMdl.moves.forEach((move) => {
+        if(move !== "") pkmModel.moves.push(move)
     })
 
     pkmModel.baseStats = {

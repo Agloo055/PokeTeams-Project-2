@@ -49,9 +49,31 @@ router.get('/new/forms', isAuthNew, (req, res) => {
 
 // NEW PAGE 3
 router.get('/new/data', isAuthNew, (req, res) => {
-    const pkmMain = getPkm.getPkmMain()
+    let hasShiny = true
+    const abilities = []
+    const moves = []
 
-    res.send(pkmMain)
+    const pkmMain = getPkm.getPkmMain()
+    const pkmModel = getPkm.getPkmModel()
+
+    if(pkmMain.sprites.front_shiny === null) hasShiny = false
+
+    pkmMain.abilities.forEach((ability) => {
+        abilities.push(ability.ability.name)
+    })
+
+    pkmMain.moves.forEach((move) => {
+        moves.push(move.move.name)
+    })
+
+    res.render('pokemon/newData.ejs', {
+        currentUser: req.session.currentUser,
+        teamID: req.params.teamID,
+        pokemon: pkmModel.pokemon,
+        hasShiny: hasShiny,
+        abilities: abilities,
+        moves: moves
+    })
 })
 
 // DELETE
@@ -116,9 +138,8 @@ router.post('/new/data', async (req, res) => {
     if(req.body.pokemon === ""){
         res.send(`<a href='/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/new'>Choose a pokemon!</a>`)
     }
-    res.send(req.body)
 
-    await pokeMaker.pokeMakerData()
+    pokeMaker.pokeMakerData(req.body)
     
     const pkmModel = getPkm.getPkmModel()
 

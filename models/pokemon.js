@@ -8,6 +8,7 @@ const pokemonSchema = new Schema({
     nickname: String,
     //Page 2
     form: String,
+    //Page 3
     typing: [String],
     baseStats: {
         hp: Number,
@@ -20,27 +21,10 @@ const pokemonSchema = new Schema({
     },
     weight: Number,
     height: Number,
-    //Page 3
     img: String,
     isShiny: Boolean,
     moves: [String],
-    ability: String,
-    evs: {
-        hp: Number,
-        atk: Number,
-        def: Number,
-        spA: Number,
-        spD: Number,
-        spe: Number
-    },
-    ivs: {
-        hp: Number,
-        atk: Number,
-        def: Number,
-        spA: Number,
-        spD: Number,
-        spe: Number
-    }
+    ability: String
 })
 
 const Pokemon = mongoose.model('Pokemon', pokemonSchema)
