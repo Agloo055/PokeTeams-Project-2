@@ -22,7 +22,20 @@ const pokeMaker = async (pkmMdl) => {
     return pkmModel
 } 
 
-const pokeMakerP2 = (pkmMdl) => {
+const pokeMakerForms = async (pkmMdl) => {
+    let formUrl
+    pkmSpecies.varieties.forEach(async (form) => {
+        if(form.pokemon.name === pkmMdl.form && !form.is_default){
+            formUrl = form.pokemon.url
+        }
+    })
+    pkmMain = await fetch(formUrl)
+        .then((res) => res.json())
+        
+    return pkmModel
+}
+
+const pokeMakerData = (pkmMdl) => {
 
     pkmModel.img = pkmMain.sprites.front_default
     pkmModel.typing = []
@@ -69,4 +82,6 @@ const clearPkmModel = () => {
     }
 }
 
-module.exports = {pokeMaker, getPkmModel, getPkmMain, getPkmSpecies, clearPkmModel}
+module.exports = {pokeMaker, pokeMakerForms, pokeMakerData,
+     getPkmModel, getPkmMain, getPkmSpecies, 
+     clearPkmModel}
