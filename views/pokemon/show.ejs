@@ -18,7 +18,7 @@
         <% }) %>
     </ul>
 
-    <a href="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/<%=pokemon._id%>/edit">Edit pokemon</a>
+    <a href="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/<%=pokemon._id%>/edit/pokemon">Edit pokemon</a>
     <form action="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/<%=pokemon._id%>?_method=DELETE" method="POST">
         <input type="submit" value="Remove Pokemon">
     </form>

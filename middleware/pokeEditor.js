@@ -1,13 +1,13 @@
 const ROOT_URL = process.env.ROOT_URL
+const getPkm = require('./pokeMaker')
 
 //Globals
 let pkmSpecies
 let pkmMain
 const pkmModel = {}
+const curPkmModel = {}
 
-const pokeMaker = async (pkmMdl) => {
-    clearPkmModel()
-
+const pokeEditor = async (pkmMdl) => {
     const pkm = pkmMdl.pokemon.split(' ')
     pkmModel.num = Number(pkm[0])
     pkmModel.pokemon = pkm[1]
@@ -22,7 +22,7 @@ const pokeMaker = async (pkmMdl) => {
     return pkmModel
 } 
 
-const pokeMakerForms = async (pkmMdl) => {
+const pokeEditorForms = async (pkmMdl) => {
     let formUrl
     pkmSpecies.varieties.forEach(async (form) => {
         if(form.pokemon.name === pkmMdl.form && !form.is_default){
@@ -38,7 +38,7 @@ const pokeMakerForms = async (pkmMdl) => {
     return pkmModel
 }
 
-const pokeMakerData = (pkmMdl) => {
+const pokeEditorData = (pkmMdl) => {
 
     pkmMdl.isShiny === 'on' ? pkmModel.isShiny = true : pkmModel.isShiny = false
     
@@ -47,8 +47,6 @@ const pokeMakerData = (pkmMdl) => {
     }else{
         pkmModel.img = pkmMain.sprites.front_default
     }
-
-    if(!pkmModel.form) pkmModel.form = null
 
     pkmModel.weight = pkmMain.weight/10
     pkmModel.height = pkmMain.height/10
@@ -90,6 +88,10 @@ const getPkmModel = () => {
     return pkmModel
 }
 
+const getCurPkmModel = () => {
+    return curPkmModel
+}
+
 const getPkmMain = () => {
     return pkmMain
 }
@@ -104,6 +106,39 @@ const clearPkmModel = () => {
     }
 }
 
-module.exports = {pokeMaker, pokeMakerForms, pokeMakerData,
-     getPkmModel, getPkmMain, getPkmSpecies, 
-     clearPkmModel}
+const setPkmModel = (pkmMdl) => {
+    curPkmModel.pokemon = pkmMdl.pokemon
+    curPkmModel.num = pkmMdl.num
+    curPkmModel.nickname = pkmMdl.nickname
+    curPkmModel.form = pkmMdl.form
+
+    curPkmModel.typing = []
+    pkmMdl.typing.forEach((type) => {
+        curPkmModel.typing.push(type)
+    })
+
+    curPkmModel.baseStats = {
+        hp: pkmMdl.baseStats.hp,
+        atk: pkmMdl.baseStats.atk,
+        def: pkmMdl.baseStats.def,
+        spA: pkmMdl.baseStats.spA,
+        spD: pkmMdl.baseStats.spD,
+        spe: pkmMdl.baseStats.spe,
+        bst: pkmMdl.baseStats.bst
+    },
+    curPkmModel.weight = pkmMdl.weight
+    curPkmModel.height = pkmMdl.height
+    curPkmModel.img = pkmMdl.img
+    curPkmModel.isShiny = pkmMdl.isShiny
+
+    curPkmModel.moves = []
+    pkmMdl.moves.forEach((move) => {
+        curPkmModel.moves.push(move)
+    })
+
+    curPkmModel.ability = pkmMdl.ability
+}
+
+module.exports = {pokeEditor, pokeEditorForms, pokeEditorData,
+     getPkmModel, getCurPkmModel, getPkmMain, getPkmSpecies, 
+     clearPkmModel, setPkmModel}

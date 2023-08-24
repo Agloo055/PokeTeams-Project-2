@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script defer src="/js/pokemon.js"></script>
+    <title>Edit Pokemon</title>
+</head>
+<body>
+    <%- include('../partials/nav') %>
+    <h1>Choose your Pokemon form!</h1>
+    <form action="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/edit/form" method="POST">
+        Pokemon: <input required type="text" class="pkChoice" name="pokemon" value="<%= pokemon %>" readonly> <br>
+        Form: <select name="form" class="submit">
+            <% forms.forEach((form) =>{ %>
+                <option value="<%= form %>" <% if(isSame && curForm === form){ %> selected <% } %>><%=form%></option>
+            <% }) %>
+        </select>
+        <input type="submit" class="submit" value="Next Page">
+    </form>
+</body>
+</html>

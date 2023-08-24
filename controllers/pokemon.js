@@ -3,10 +3,18 @@ const User = require('../models/users')
 const Team = require('../models/teams').Team
 const Pokemon = require('../models/pokemon').Pokemon
 const isAuth = require('../middleware/isAuthorized').isAuth
-const isAuthNew = require('../middleware/isAuthorized').isAuthPoke
+const isAuthNew = require('../middleware/isAuthorized').isAuthNew
+const isAuthEdit = require('../middleware/isAuthorized').isAuthEdit
+
 const pokeMaker = require('../middleware/pokeMaker')
 const getPkm = require('../middleware/pokeMaker')
+
 const genMaker = require('../middleware/genMaker')
+
+const pokeEditor = require('../middleware/pokeEditor')
+const getPkmEdit = require('../middleware/pokeEditor')
+const setPkm = require('../middleware/pokeEditor').setPkmModel
+
 const ROOT_URL = process.env.ROOT_URL
 
 // INDUCES
@@ -16,9 +24,8 @@ router.get('/', isAuth, (req, res) => {
     res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}`)
 })
 
-// NEW PAGE 1
+// NEW POKEMON PAGE
 router.get('/new/pokemon', isAuthNew, (req, res) => {
-    
     const genPokemon = genMaker.genPokemon
 
     res.render('pokemon/new.ejs', {
@@ -28,7 +35,7 @@ router.get('/new/pokemon', isAuthNew, (req, res) => {
     })
 })
 
-// NEW PAGE 2
+// NEW FORM PAGE
 router.get('/new/forms', isAuthNew, (req, res) => {
     
     const pkmSpecies = getPkm.getPkmSpecies()
@@ -47,7 +54,7 @@ router.get('/new/forms', isAuthNew, (req, res) => {
     })
 })
 
-// NEW PAGE 3
+// NEW DATA PAGE
 router.get('/new/data', isAuthNew, (req, res) => {
     let hasShiny = true
     const abilities = []
@@ -89,25 +96,47 @@ router.delete('/:pokeID', async (req, res) => {
     res.redirect(`/users/${req.params.userID}/teams/${req.params.teamID}/`)
 })
 
-// UPDATE
+// UPDATE POKEMON PAGE
 router.put('/:pokeID', async (req,res) => {
-    const pkmModel = await pokeMaker.pokeMaker(req.body)
+    await pokeEditor.pokeEditor(req.body)
     
-    const foundUser = await User.findById(req.params.userID)
-    const foundTeam = await Team.findById(req.params.teamID)
-    const foundPokemon = await Pokemon.findByIdAndUpdate(req.params.pokeID, pkmModel, {new: true})
-    const pokemon = foundTeam.members.id(req.params.pokeID)
-
-    foundTeam.members.splice(foundTeam.members.indexOf(pokemon), 1, foundPokemon)
-    await foundTeam.save()
-    const team = foundUser.teams.id(req.params.teamID)
-    foundUser.teams.id(team).members.splice(foundTeam.members.indexOf(pokemon), 1, foundPokemon)
-    await foundUser.save()
-    req.session.currentUser = foundUser
-    res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/${req.params.pokeID}`)
+    const pkmSpecies = getPkmEdit.getPkmSpecies()
+    if(pkmSpecies.varieties.length > 1){
+        res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/${req.params.pokeID}/edit/form`)
+    } else {
+        res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/${req.params.pokeID}/edit/data`)
+    }
 })
 
+// UPDATE FORM PAGE
+router.put('/:pokeID/form', async (req,res) => {
+    if(req.body.pokemon === ""){
+        res.send(`<a href='/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/${req.params.pokeID}'>Choose a pokemon!</a>`)
+    }
+    await pokeMaker.pokeMakerForms(req.body)
+    
+    res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/new/data`)
+})
 
+// UPDATE DATA PAGE
+router.put('/:pokeID/data', async (req,res) => {
+    // const pkmModel = await pokeMaker.pokeMaker(req.body)
+    
+    // const foundUser = await User.findById(req.params.userID)
+    // const foundTeam = await Team.findById(req.params.teamID)
+    // const foundPokemon = await Pokemon.findByIdAndUpdate(req.params.pokeID, pkmModel, {new: true})
+    // const pokemon = foundTeam.members.id(req.params.pokeID)
+
+    // foundTeam.members.splice(foundTeam.members.indexOf(pokemon), 1, foundPokemon)
+    // await foundTeam.save()
+    // const team = foundUser.teams.id(req.params.teamID)
+    // foundUser.teams.id(team).members.splice(foundTeam.members.indexOf(pokemon), 1, foundPokemon)
+    // await foundUser.save()
+    // req.session.currentUser = foundUser
+    // res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/${req.params.pokeID}`)
+})
+
+// Create
 // CREATE POKEMON PAGE
 router.post('/', async (req, res) => {
     if(req.body.pokemon === ""){
@@ -154,12 +183,14 @@ router.post('/new/data', async (req, res) => {
     res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}`)
 })
 
-// EDIT
-router.get('/:pokeID/edit', isAuth, async (req, res) => {
+// EDIT POKEMON PAGE
+router.get('/:pokeID/edit/pokemon', isAuthEdit, async (req, res) => {
     
     const genPokemon = genMaker.genPokemon
     const foundTeam = await Team.findById(req.params.teamID)
     const pokemon = foundTeam.members.id(req.params.pokeID)
+
+    setPkm(pokemon)
 
     res.render('pokemon/edit.ejs', {
         currentUser: req.session.currentUser,
@@ -167,6 +198,47 @@ router.get('/:pokeID/edit', isAuth, async (req, res) => {
         genPokemon: genPokemon,
         pokemon: pokemon
     })
+})
+
+// EDIT FORM PAGE
+router.get('/:pokeID/edit/form', isAuthEdit, async (req, res) => {
+    const pkmModel = getPkmEdit.getPkmModel()
+    const pkmSpecies = getPkmEdit.getPkmSpecies()
+    const curPkmModel = getPkmEdit.getCurPkmModel()
+
+    let isSame = false
+    curPkmModel.pokemon === pkmModel.pokemon ? isSame = true : isSame = false
+
+    const forms = []
+    pkmSpecies.varieties.forEach((form) => {
+        forms.push(form.pokemon.name)
+    })
+
+    res.render('pokemon/editForm.ejs', {
+        currentUser: req.session.currentUser,
+        teamID: req.params.teamID,
+        forms: forms,
+        pokemon: pkmModel.pokemon,
+        curForm: curPkmModel.form,
+        isSame: isSame
+    })
+})
+
+// EDIT DATA PAGE
+router.get('/:pokeID/edit/data', isAuthEdit, async (req, res) => {
+    res.send('Data')
+    // const genPokemon = genMaker.genPokemon
+    // const foundTeam = await Team.findById(req.params.teamID)
+    // const pokemon = foundTeam.members.id(req.params.pokeID)
+
+    // setPkm(pokemon)
+
+    // res.render('pokemon/edit.ejs', {
+    //     currentUser: req.session.currentUser,
+    //     teamID: req.params.teamID,
+    //     genPokemon: genPokemon,
+    //     pokemon: pokemon
+    // })
 })
 
 // SHOW
