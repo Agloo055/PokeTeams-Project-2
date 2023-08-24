@@ -4,24 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/pokemonShowStyle.css">
     <title>Team</title>
 </head>
 <body>
     <%- include('../partials/nav') %>
-    <h1><%= pokemon.nickname %> (<%= pokemon.pokemon %>)</h1>
-    <img src="<%= pokemon.img %>" alt="<%= pokemon.pokemon %>">
-    
-    <h4>Typing</h4>
-    <ul>
-        <% pokemon.typing.forEach((type) =>{ %>
-        <li class="<%= type %>"><%=type%></li>
-        <% }) %>
-    </ul>
+    <div class="pokemon submit">
+        <h1 class="nickname"><%= pokemon.nickname %></h1>
+        <h4 class="pokemonShow">No. <%= pokemon.num %>: <%= pokemon.pokemon %></h4>
+        <img class="img" src="<%= pokemon.img %>" alt="<%= pokemon.pokemon %>">
 
-    <a href="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/<%=pokemon._id%>/edit/pokemon">Edit pokemon</a>
-    <form action="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/<%=pokemon._id%>?_method=DELETE" method="POST">
-        <input type="submit" value="Remove Pokemon">
-    </form>
-    <a href="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/">Back to Team</a>
+        <h4 class="moveList">Moves:</h4>
+        <div class="moves">
+            <% pokemon.moves.forEach((move) =>{ %>
+                <div><%=move%></div>
+            <% }) %>
+        </div>
+
+        <h4 class="abilityList">Ability:</h4>
+        <div class="ability"><%=pokemon.ability%></div>
+
+        <h4 class="baseStatsList">Base Stats:</h4>
+        <div class="baseStats">
+            <% for(let stat in pokemon.baseStats) { %>
+            <div><%=stat%>: <%=pokemon.baseStats[stat]%></div>
+                <% if(stat === 'bst'){ %>
+                    <% break %>
+                <% } %>
+            <% } %>
+        </div>
+
+        <% if(pokemon.form) {%> 
+            <div class="form"><%= pokemon.form %></div>
+        <% } %>
+        <% if(pokemon.isShiny) {%> 
+            <div class="isShiny">SHINY!</div>
+        <% } %>
+
+        <div class="height">Height: <%=pokemon.height%></div>
+        <div class="weight">Weight: <%=pokemon.weight%></div>
+
+        <h4 class="typesList">Typing:</h4>
+        <div class="types">
+            <% pokemon.typing.forEach((type) =>{ %>
+            <div class="<%= type %> type"><%=type%></div>
+            <% }) %>
+        </div>
+    </div> <br>
+
+    <a class="submit editLink" href="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/<%=pokemon._id%>/edit/pokemon">Edit pokemon</a>
+    <form class="removePokemon" action="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/<%=pokemon._id%>?_method=DELETE" method="POST">
+        <input class="submit" type="submit" value="Remove Pokemon">
+    </form> <br>
+    <a class="submit link" href="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/">Back to Team</a>
 </body>
 </html>

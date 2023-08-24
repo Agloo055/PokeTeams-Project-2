@@ -133,7 +133,7 @@ body{
 }
 
 /*Team show page*/
-.pokemon{
+.pokemonTeam{
     display: inline-grid;
     grid-gap: 5px;
     grid-template-areas: 
@@ -190,8 +190,3 @@ body{
     justify-self: center;
     padding: 0 10px 0 10px;
 }
-/*Team edit page*/
-
-/*New/Edit pages*/
-
-/*Show page*/

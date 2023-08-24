@@ -1,0 +1,257 @@
+/*Pokemon Show page*/
+.pokemon{
+    display: inline-grid;
+    grid-gap: 5px;
+    grid-template-areas: 
+    "nickname   .           .       .   .   baseStatsList   abilityList"
+    "pokemon    .           img     img .   baseStats       ability"
+    "form       .           img     img .   baseStats       moveList"
+    "shiny      .           img     img .   baseStats       move"
+    ".          .           .       .   .   baseStats       move"
+    "height     typingList  .       .   .   baseStats       move"
+    "weight     type        type    .   .   baseStats       move";
+    
+    grid-template-rows: 50px auto;
+    grid-template-columns: 250px 125px 125px 125px 125px 125px 125px;
+    column-gap: 10px;
+    row-gap: 10px;
+}
+
+.nickname{ 
+    grid-area: nickname;
+    font-size: 40px;
+}
+
+.pokemonShow{
+    grid-area: pokemon;
+    font-size: 35px;
+    justify-self: center;
+    align-self: center;
+    background-color: darkblue;
+    padding: 10px;
+}
+
+.img{
+    grid-area: img;
+    height: 300px;
+    width: 300px;
+    justify-self: center;
+    align-self: center;
+}
+
+.moveList{
+    grid-area: moveList;
+    justify-self: center;
+    align-self: center;
+    background-color: darkblue;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.moves{
+    grid-area: move;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px 0 5px 0;
+    gap: 40px;
+    font-size: 20px;
+    background-color: #609191;
+}
+
+.abilityList{
+    grid-area: abilityList;
+    justify-self: center;
+    align-self: center;
+    background-color: darkblue;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.ability{
+    grid-area: ability;
+    background-color: #609191;
+    justify-self: center;
+    align-self: center;
+    font-size: 20px;
+    padding: 10px 10px 10px 10px;
+}
+
+.baseStatsList{
+    grid-area: baseStatsList;
+    justify-self: center;
+    align-self: center;
+    background-color: darkblue;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.baseStats{
+    grid-area: baseStats;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 20px;
+    gap: 55px;
+    padding: 10px 0 0 0;
+    background-color: #609191;
+}
+
+.isShiny{
+    grid-area: shiny;
+    justify-self: center;
+    align-self: center;
+    background-color: goldenrod;
+    font-weight: bold;
+    font-size: 20px;
+    color: black;
+    padding: 10px;
+}
+
+.form{
+    grid-area: form;
+    justify-self: center;
+    align-self: center;
+    background-color: darkblue;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.height{
+    grid-area: height;
+    justify-self: center;
+    align-self: center;
+    background-color: darkblue;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.weight{
+    grid-area: weight;
+    justify-self: center;
+    align-self: center;
+    background-color: darkblue;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.typesList{
+    grid-area: typingList;
+    justify-self: center;
+    align-self: center;
+    background-color: darkblue;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.types{
+    grid-area: type;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 35px;
+}
+
+.type{
+    padding: 10px;
+    font-size: 20px;
+}
+
+.removePokemon{
+    display: inline;
+}
+
+/*TYPES*/
+.normal {
+    background-color: #A8A878;
+    color: black;
+}
+
+.fighting {
+    background-color: #C03028;
+}
+
+.flying {
+    background-color: #A890F0;
+    color: black;
+}
+
+.poison {
+    background-color: #A040A0;
+}
+
+.ground {
+    background-color: #E0C068;
+    color: black;
+}
+
+.rock {
+    background-color: #B8A038;
+    color: black;
+}
+
+.bug {
+    background-color: #A8B820;
+    color: black;
+}
+
+.ghost {
+    background-color: #705898;
+}
+
+.steel {
+    background-color: #B8B8D0;
+    color: black;
+}
+
+.fire {
+    background-color: #F08030;
+    color: black;
+}
+
+.water {
+    background-color: #6890F0;
+    color: black;
+}
+
+.grass {
+    background-color: #78C850;
+    color: black;
+}
+
+.electric {
+    background-color: #F8D030;
+    color: black;
+}
+
+.psychic {
+    background-color: #F85888;
+    color: black;
+}
+
+.ice {
+    background-color: #98D8D8;
+    color: black;
+}
+
+.dragon {
+    background-color: #7038F8;
+}
+
+.dark {
+    background-color: #705848;
+}
+
+.fairy {
+    background-color: #EE99AC;
+    color: black;
+}
