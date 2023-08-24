@@ -8,17 +8,34 @@
 </head>
 <body>
     <%- include('../partials/nav') %>
-    <h1><%= team.nickname %>'s Members:</h1> <a href="/users/<%=currentUser._id%>/teams/<%=team._id%>/edit">Rename Team</a>
-    <ul>
-        <% team.members.forEach((pokemon) => { %>
-            <a href="/users/<%=currentUser._id%>/teams/<%=team._id%>/pokemon/<%=pokemon._id%>"><li><%= pokemon.nickname %> (<%= pokemon.pokemon %>) <br>
-                <img src="<%= pokemon.img %>" alt="<%= pokemon.pokemon %>">
-            </li></a>
-            <form action="/users/<%=currentUser._id%>/teams/<%=team._id%>/pokemon/<%=pokemon._id%>?_method=DELETE" method="POST">
-                <input type="submit" value="Remove Pokemon">
+    <h1><%= team.nickname %>'s Members:</h1> 
+    <a href="/users/<%=currentUser._id%>/teams/<%=team._id%>/edit" class="submit link">Rename Team</a> <br>
+    
+    <% team.members.forEach((pokemon) => { %>
+        <a href="/users/<%=currentUser._id%>/teams/<%=team._id%>/pokemon/<%=pokemon._id%>" class="submit link pokemon">
+            <div class="nickname"> <%= pokemon.nickname %> </div> 
+            <div class="pokemonShow">No. <%= pokemon.num %>: <%= pokemon.pokemon %></div>
+            <img class="img" src="<%= pokemon.img %>" alt="<%= pokemon.pokemon %>">
+            <div class="moveList">Moves:</div>
+            <div class="moves">
+                <% pokemon.moves.forEach((move, i) => { %>
+                    <div> <%= move %> </div>
+                <% }) %>
+            </div>
+
+            <div class="abilityList">Ability:</div>
+            <div class="ability"><%= pokemon.ability %></div>
+        </a>
+        <div class="options">
+            <form action="/users/<%=currentUser._id%>/teams/<%=team._id%>/pokemon/<%=pokemon._id%>?_method=DELETE" method="POST" class="delete">
+                <input type="submit" class="submit" value="Remove Pokemon">
             </form>
-        <% }) %>
-    </ul>
+            <form action="/users/<%=currentUser._id%>/teams/<%= team._id %>/pokemon/<%=pokemon._id%>/edit/pokemon" method="GET">
+                <input type="submit" class="submit editLink" value="Edit Pokemon">
+            </form>
+        </div> <br>
+    <% }) %>
+
     <% if (team.members.length < 6){ %>
         <form action="/users/<%=currentUser._id%>/teams/<%=team._id%>/pokemon/new/pokemon" method="GET">
             <input type="submit" value="Add Pokemon">

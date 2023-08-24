@@ -65,7 +65,7 @@ body{
 }
 
 /*Teams page*/
-#team{
+.team{
     display: inline-grid;
     grid-gap: 5px;
     grid-template-areas: 
@@ -73,7 +73,6 @@ body{
     "pokemon pokemon pokemon pokemon pokemon pokemon";
     grid-template-rows: 50px 100px;
     grid-template-columns: 100px 100px 100px 100px 100px 100px;
-    
 }
 
 .mon1{
@@ -120,21 +119,79 @@ body{
 }
 
 /*Team index page*/
-.teamOptions{
+.options{
     display: inline-flex;
     flex-direction: column;
+    align-items: center;
 }
-.deleteTeam{
+.delete{
     display: inline;
 }
 
-.eTeamLink{
+.editLink{
     text-decoration: none; 
 }
 
+/*Team show page*/
+.pokemon{
+    display: inline-grid;
+    grid-gap: 5px;
+    grid-template-areas: 
+    "nickname   .     .     moveList"
+    "pokemon    img   img   move"
+    ".          img   img   move"
+    "abilityList    .     .     move"
+    "ability    .     .     move";
+    grid-template-rows: 35px auto 50px;
+    grid-template-columns: 150px auto 100px;
+    width: 600px;
+    height: 250px;
+}
+
+.nickname{
+    grid-area: nickname;
+    font-size: 30px;
+}
+
+.pokemonShow{
+    grid-area: pokemon;
+    font-size: 20px;
+}
+
+.img{
+    grid-area: img;
+    height: 150px;
+    width: 150px;
+    justify-self: center;
+    align-self: center;
+}
+
+.moves{
+    grid-area: move;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 35px;
+    background-color: #609191;
+}
+
+.moveList{
+    grid-area: moveList;
+}
+
+.abilityList{
+    grid-area: abilityList;
+}
+
+.ability{
+    grid-area: ability;
+    background-color: #609191;
+    justify-self: center;
+    padding: 0 10px 0 10px;
+}
 /*Team edit page*/
 
 /*New/Edit pages*/
-
 
 /*Show page*/

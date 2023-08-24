@@ -10,18 +10,20 @@
     <%- include('../partials/nav') %>
     <h1>Your Teams</h1>
     <% currentUser.teams.forEach((team) => { %>
-        <a href="/users/<%= currentUser._id %>/teams/<%= team._id %>" id="team" class="submit link">
+        <a href="/users/<%= currentUser._id %>/teams/<%= team._id %>" class="submit link team">
             <div class="team"> <%= team.nickname %> </div>
             <% team.members.forEach((pokemon, i) => { %>
                 <img class="mon<%=i+1%>" src="<%= pokemon.img %>" alt="<%= pokemon.pokemon %>">
             <% }) %>
         </a>
-        <div class="teamOptions">
-            <form action="/users/<%=currentUser._id%>/teams/<%=team._id%>/?_method=DELETE" method="POST" class="deleteTeam">
+        <div class="options">
+            <form action="/users/<%=currentUser._id%>/teams/<%=team._id%>/?_method=DELETE" method="POST" class="delete">
                 <input type="submit" class="submit" value="Delete Team">
             </form>
-            <a href="/users/<%=currentUser._id%>/teams/<%=team._id%>/edit" class="submit eTeamLink">Rename Team</a>
-        </div>
+            <form action="/users/<%=currentUser._id%>/teams/<%=team._id%>/edit" method="GET">
+                <input type="submit" class="submit editLink" value="Rename Team">
+            </form>
+        </div> <br>
     <% }) %>
     <form action="/users/<%=currentUser._id%>/teams/new/" method="GET">
         <input type="submit" class="submit" value="Make new team">
