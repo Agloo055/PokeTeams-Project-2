@@ -38,10 +38,10 @@
 
     <% if (team.members.length < 6){ %>
         <form action="/users/<%=currentUser._id%>/teams/<%=team._id%>/pokemon/new/pokemon" method="GET">
-            <input type="submit" value="Add Pokemon">
+            <input class="submit" type="submit" value="Add Pokemon">
         </form>
     <% } else { %>
-        <h3>You can only have 6 pokemon per team!</h3>
+        <h3 class="submit">You can only have 6 pokemon per team!</h3>
     <% } %>
 </body>
 </html>
