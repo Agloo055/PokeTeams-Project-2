@@ -64,8 +64,6 @@ body{
     margin: 10px;
 }
 
-/*Pokedex partial*/
-
 /*Teams page*/
 #team{
     display: inline-grid;
@@ -122,6 +120,17 @@ body{
 }
 
 /*Team index page*/
+.teamOptions{
+    display: inline-flex;
+    flex-direction: column;
+}
+.deleteTeam{
+    display: inline;
+}
+
+.eTeamLink{
+    text-decoration: none; 
+}
 
 /*Team edit page*/
 
