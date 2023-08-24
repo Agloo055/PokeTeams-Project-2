@@ -113,27 +113,31 @@ router.put('/:pokeID/form', async (req,res) => {
     if(req.body.pokemon === ""){
         res.send(`<a href='/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/${req.params.pokeID}'>Choose a pokemon!</a>`)
     }
-    await pokeMaker.pokeMakerForms(req.body)
+    await pokeEditor.pokeEditorForms(req.body)
     
-    res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/new/data`)
+    res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/${req.params.pokeID}/edit/data`)
 })
 
 // UPDATE DATA PAGE
 router.put('/:pokeID/data', async (req,res) => {
-    // const pkmModel = await pokeMaker.pokeMaker(req.body)
+    pokeEditor.pokeEditorData(req.body)
+    const pkmModel = getPkmEdit.getPkmModel()
     
-    // const foundUser = await User.findById(req.params.userID)
-    // const foundTeam = await Team.findById(req.params.teamID)
-    // const foundPokemon = await Pokemon.findByIdAndUpdate(req.params.pokeID, pkmModel, {new: true})
-    // const pokemon = foundTeam.members.id(req.params.pokeID)
+    const foundUser = await User.findById(req.params.userID)
+    const foundTeam = await Team.findById(req.params.teamID)
+    const foundPokemon = await Pokemon.findByIdAndUpdate(req.params.pokeID, pkmModel, {new: true})
+    let pokemon = foundTeam.members.id(req.params.pokeID)
 
-    // foundTeam.members.splice(foundTeam.members.indexOf(pokemon), 1, foundPokemon)
-    // await foundTeam.save()
-    // const team = foundUser.teams.id(req.params.teamID)
-    // foundUser.teams.id(team).members.splice(foundTeam.members.indexOf(pokemon), 1, foundPokemon)
-    // await foundUser.save()
-    // req.session.currentUser = foundUser
-    // res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/${req.params.pokeID}`)
+    foundTeam.members.splice(foundTeam.members.indexOf(pokemon), 1, foundPokemon)
+    await foundTeam.save()
+
+    pokemon = foundTeam.members.id(req.params.pokeID)
+    const team = foundUser.teams.id(req.params.teamID)
+
+    foundUser.teams.id(team).members.splice(foundTeam.members.indexOf(pokemon), 1, foundPokemon)
+    await foundUser.save()
+    req.session.currentUser = foundUser
+    res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}/pokemon/${req.params.pokeID}`)
 })
 
 // Create
@@ -217,6 +221,7 @@ router.get('/:pokeID/edit/form', isAuthEdit, async (req, res) => {
     res.render('pokemon/editForm.ejs', {
         currentUser: req.session.currentUser,
         teamID: req.params.teamID,
+        pokeID: req.params.pokeID,
         forms: forms,
         pokemon: pkmModel.pokemon,
         curForm: curPkmModel.form,
@@ -226,19 +231,41 @@ router.get('/:pokeID/edit/form', isAuthEdit, async (req, res) => {
 
 // EDIT DATA PAGE
 router.get('/:pokeID/edit/data', isAuthEdit, async (req, res) => {
-    res.send('Data')
-    // const genPokemon = genMaker.genPokemon
-    // const foundTeam = await Team.findById(req.params.teamID)
-    // const pokemon = foundTeam.members.id(req.params.pokeID)
+    const pkmModel = getPkmEdit.getPkmModel()
+    const curPkmModel = getPkmEdit.getCurPkmModel()
+    const pkmMain = getPkmEdit.getPkmMain()
+    let isSame = false
+    if((curPkmModel.pokemon === pkmModel.pokemon) && (curPkmModel.form === pkmModel.form)){
+        isSame = true 
+    } else {
+        isSame = false
+    }
 
-    // setPkm(pokemon)
+    let hasShiny = true
+    const abilities = []
+    const moves = []
 
-    // res.render('pokemon/edit.ejs', {
-    //     currentUser: req.session.currentUser,
-    //     teamID: req.params.teamID,
-    //     genPokemon: genPokemon,
-    //     pokemon: pokemon
-    // })
+    if(pkmMain.sprites.front_shiny === null) hasShiny = false
+
+    pkmMain.abilities.forEach((ability) => {
+        abilities.push(ability.ability.name)
+    })
+
+    pkmMain.moves.forEach((move) => {
+        moves.push(move.move.name)
+    })
+
+    res.render('pokemon/editData.ejs', {
+        currentUser: req.session.currentUser,
+        teamID: req.params.teamID,
+        pokeID: req.params.pokeID,
+        pokemon: pkmModel.pokemon,
+        curPokemon: curPkmModel,
+        hasShiny: hasShiny,
+        abilities: abilities,
+        moves: moves,
+        isSame: isSame
+    })
 })
 
 // SHOW

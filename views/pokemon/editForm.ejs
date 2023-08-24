@@ -10,7 +10,7 @@
 <body>
     <%- include('../partials/nav') %>
     <h1>Choose your Pokemon form!</h1>
-    <form action="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/edit/form" method="POST">
+    <form action="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/<%= pokeID %>/form?_method=PUT" method="POST">
         Pokemon: <input required type="text" class="pkChoice" name="pokemon" value="<%= pokemon %>" readonly> <br>
         Form: <select name="form" class="submit">
             <% forms.forEach((form) =>{ %>

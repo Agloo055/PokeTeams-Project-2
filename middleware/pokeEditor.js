@@ -12,7 +12,7 @@ const pokeEditor = async (pkmMdl) => {
     pkmModel.num = Number(pkm[0])
     pkmModel.pokemon = pkm[1]
 
-    pkmMdl.nickname ? pkmModel.nickname = pkmModel.nickname : pkmModel.nickname = pkmModel.pokemon
+    pkmMdl.nickname ? pkmModel.nickname = pkmMdl.nickname : pkmModel.nickname = pkmModel.pokemon
 
     pkmSpecies = await fetch(`${ROOT_URL}/pokemon-species/${pkmModel.num}`)
         .then((res) => res.json())
@@ -39,7 +39,6 @@ const pokeEditorForms = async (pkmMdl) => {
 }
 
 const pokeEditorData = (pkmMdl) => {
-
     pkmMdl.isShiny === 'on' ? pkmModel.isShiny = true : pkmModel.isShiny = false
     
     if(pkmModel.isShiny){
@@ -103,6 +102,9 @@ const getPkmSpecies = () => {
 const clearPkmModel = () => {
     for (data in pkmModel) {
         delete pkmModel[data]
+    }
+    for (data in curPkmModel) {
+        delete curPkmModel[data]
     }
 }
 

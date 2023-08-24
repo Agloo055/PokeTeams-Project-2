@@ -12,7 +12,7 @@ const pokeMaker = async (pkmMdl) => {
     pkmModel.num = Number(pkm[0])
     pkmModel.pokemon = pkm[1]
 
-    pkmMdl.nickname ? pkmModel.nickname = pkmModel.nickname : pkmModel.nickname = pkmModel.pokemon
+    pkmMdl.nickname ? pkmModel.nickname = pkmMdl.nickname : pkmModel.nickname = pkmModel.pokemon
 
     pkmSpecies = await fetch(`${ROOT_URL}/pokemon-species/${pkmModel.num}`)
         .then((res) => res.json())
@@ -48,7 +48,7 @@ const pokeMakerData = (pkmMdl) => {
         pkmModel.img = pkmMain.sprites.front_default
     }
 
-    if(!pkmModel.form) pkmModel.form = null
+    if(!pkmModel.form) pkmModel.form = undefined
 
     pkmModel.weight = pkmMain.weight/10
     pkmModel.height = pkmMain.height/10

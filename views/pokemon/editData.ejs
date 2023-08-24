@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script defer src="/js/pokemon.js"></script>
+    <title>Edit Pokemon</title>
+</head>
+<body>
+    <%- include('../partials/nav') %>
+    <h1>Add More to Your Pokemon!</h1>
+    <form action="/users/<%=currentUser._id%>/teams/<%= teamID %>/pokemon/<%= pokeID %>/data?_method=PUT" method="POST">
+        Pokemon: <input required type="text" class="pkChoice" name="pokemon" value="<%= pokemon %>" readonly> <br>
+        <% if(hasShiny){ %>
+            Shiny? <input type="checkbox" name="isShiny" <% if(isSame && curPokemon.isShiny){%> checked <% } %>> <br>
+        <% } %>
+        Ability: 
+            <select name="ability" class="submit">
+                <% abilities.forEach((ability) =>{ %>
+                    <option value="<%= ability %>" 
+                        <% if(isSame && curPokemon.ability === ability){ %> selected <% } %>><%=ability%></option>
+                <% }) %> 
+            </select> <br>
+        Moves:
+            <% for(let i = 0; i < 4; i++){ %>
+                <select name="moves" class="submit">
+                    <option></option>
+                    <% moves.forEach((move) =>{ %>
+                        <option value="<%= move %>" 
+                            <% if(isSame && curPokemon.moves.length > i){ %>
+                                <% if(curPokemon.moves[i] === move) {%> 
+                                    selected
+                                <% } %>
+                            <% } %>
+                            ><%=move%></option>
+                    <% }) %>
+                </select>
+            <% } %>
+            <br>
+        <input type="submit" class="submit" value="Make Pokemon">
+    </form>
+</body>
+</html>
