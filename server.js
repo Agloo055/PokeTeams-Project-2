@@ -14,12 +14,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname, 'public')))
 
-const sessionCTRL = require('./controllers/sessions.js')
-const userCTRL = require('./controllers/users.js')
-const teamCTRL = require('./controllers/teams.js')
-const pokemonCTRL = require('./controllers/pokemon.js')
-
-const isNotAuth = require("./middleware/isAuthorized.js").isNotAuth
+const routes = require('./routes/index')
 
 app.use(
     session({
@@ -38,23 +33,7 @@ db.on('disconnected', () => console.log('mongo is disconnected'))
 
 // ROUTES
 
-//home route - only when not authentic
-
-app.get('/', isNotAuth, (req, res) => {
-    res.render('home.ejs')
-})
-
-//sessions route
-app.use('/sessions', sessionCTRL)
-
-//users route
-app.use('/users', userCTRL)
-
-//teams route
-app.use('/users/:userID/teams', teamCTRL)
-
-//pokemon route
-app.use('/users/:userID/teams/:teamID/pokemon', pokemonCTRL)
+app.use('/', routes)
 
 //404 Error Route
 app.use((req,res)=>{
