@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const sessionCTRL = require('../controllers/sessions.js')
+const sessionRoute = require('./sessions')
 const userCTRL = require('../controllers/users.js')
 const teamCTRL = require('../controllers/teams.js')
 const pokemonRoute = require('./pokemon')
@@ -15,7 +15,7 @@ router.get('/', isNotAuth, (req, res) => {
 })
 
 //sessions route
-router.use('/sessions', sessionCTRL)
+router.use('/sessions', sessionRoute)
 
 //users route
 router.use('/users', userCTRL)

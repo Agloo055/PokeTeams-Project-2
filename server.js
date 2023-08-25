@@ -32,7 +32,6 @@ db.on('connected', () => console.log('mongo is connected'))
 db.on('disconnected', () => console.log('mongo is disconnected'))
 
 // ROUTES
-
 app.use('/', routes)
 
 //404 Error Route

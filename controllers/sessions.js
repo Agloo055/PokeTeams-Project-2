@@ -1,16 +1,15 @@
 const bcrypt = require('bcrypt')
-const router = require('express').Router()
 const User = require('../models/users.js')
 
 const isNotAuth = require('../middleware/isAuthorized.js').isNotAuth
 
 // NEW
-router.get('/new', isNotAuth, (req, res) => {
+const newPage = (req, res) => {
     res.render('sessions/new.ejs')
-})
+}
 
 // CREATE
-router.post('/', async (req, res) => {
+const createPage = async (req, res) => {
     try {
         const foundUser = await User.findOne({username: req.body.username})
         if (!foundUser){
@@ -25,13 +24,15 @@ router.post('/', async (req, res) => {
         console.log(err)
         res.send('db/server has found a problem!')
     }
-})
+}
 
 // DELETE
-router.delete('/', (req, res) => {
+const deletePage = (req, res) => {
     req.session.destroy(() => {
         res.redirect('/')
     })
-})
+}
 
-module.exports = router
+module.exports = {
+    newPage, createPage, deletePage
+}
