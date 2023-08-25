@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
 const sessionRoute = require('./sessions')
-const userCTRL = require('../controllers/users.js')
+const userRoute = require('./users')
 const teamRoute = require('./teams')
 const pokemonRoute = require('./pokemon')
 
@@ -18,7 +18,7 @@ router.get('/', isNotAuth, (req, res) => {
 router.use('/sessions', sessionRoute)
 
 //users route
-router.use('/users', userCTRL)
+router.use('/users', userRoute)
 
 //teams route
 router.use('/users/:userID/teams', teamRoute)
