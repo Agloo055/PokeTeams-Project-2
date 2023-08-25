@@ -8,22 +8,22 @@ const isAuth = require('../middleware/isAuthorized').isAuth
 // INDUCES
 
 // INDEX
-router.get('/', isAuth, async (req, res) => {
+const indexPage = async (req, res) => {
     if(!genMaker.genPokemon.length) await genMaker.genMaker()
     res.render('teams/index.ejs', {
         currentUser: req.session.currentUser
     })
-})
+}
 
 // NEW - STRETCH GOAL
-router.get('/new', isAuth, (req,res) => {
+const newPage = (req, res) => {
     res.render('teams/new.ejs', {
         currentUser: req.session.currentUser
     })
-})
+}
 
 // DELETE - STRETCH GOAL
-router.delete('/:teamID', async (req, res) => {
+const deletePage = async (req, res) => {
     const foundUser = await User.findById(req.params.userID)
     const team = foundUser.teams.id(req.params.teamID).deleteOne()
     const foundTeam = await Team.findByIdAndDelete(req.params.teamID)
@@ -35,10 +35,10 @@ router.delete('/:teamID', async (req, res) => {
 
     req.session.currentUser = foundUser
     res.redirect(`/users/${req.params.userID}/teams/`)
-})
+}
 
 // UPDATE - STRETCH GOAL
-router.put('/:teamID', async (req, res) => {
+const updatePage = async (req, res) => {
     const foundUser = await User.findById(req.params.userID)
     if(!req.body.nickname) req.body.nickname = `team${foundUser.teams.length}`
 
@@ -48,10 +48,10 @@ router.put('/:teamID', async (req, res) => {
     await foundUser.save()
     req.session.currentUser = foundUser
     res.redirect(`/users/${req.session.currentUser._id}/teams/${req.params.teamID}`)
-})
+}
 
 // CREATE - STRETCH GOAL
-router.post('/', async (req, res) => {
+const createPage = async (req, res) => {
     const foundUser = await User.findById(req.params.userID)
     if(!req.body.nickname) req.body.nickname = `team${foundUser.teams.length+1}`
     const team = await Team.create(req.body)
@@ -59,26 +59,34 @@ router.post('/', async (req, res) => {
     foundUser.save()
     req.session.currentUser = foundUser
     res.redirect(`/users/${req.session.currentUser._id}/teams/`)
-})
+}
 
 // EDIT - STRETCH GOAL
-router.get('/:teamID/edit', isAuth, async (req, res) => {
+const editPage = async (req, res) => {
     const foundTeam = await Team.findById(req.params.teamID)
 
     res.render('teams/edit.ejs', {
         currentUser: req.session.currentUser,
         team: foundTeam
     })
-})
+}
 
 // SHOW
-router.get('/:teamID', isAuth, async (req, res) => {
+const showPage = async (req, res) => {
     const foundTeam = await Team.findById(req.params.teamID)
 
     res.render('teams/show.ejs', {
         currentUser: req.session.currentUser,
         team: foundTeam
     })
-})
+}
 
-module.exports = router
+module.exports = {
+    indexPage,
+    newPage,
+    deletePage,
+    updatePage,
+    createPage,
+    editPage,
+    showPage
+}
