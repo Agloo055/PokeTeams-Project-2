@@ -3,7 +3,7 @@ const router = require('express').Router()
 const sessionCTRL = require('../controllers/sessions.js')
 const userCTRL = require('../controllers/users.js')
 const teamCTRL = require('../controllers/teams.js')
-const pokemonCTRL = require('../controllers/pokemon.js')
+const pokemonRoute = require('./pokemon')
 
 const isNotAuth = require("../middleware/isAuthorized.js").isNotAuth
 
@@ -24,6 +24,6 @@ router.use('/users', userCTRL)
 router.use('/users/:userID/teams', teamCTRL)
 
 //pokemon route
-router.use('/users/:userID/teams/:teamID/pokemon', pokemonCTRL)
+router.use('/users/:userID/teams/:teamID/pokemon', pokemonRoute)
 
 module.exports = router
